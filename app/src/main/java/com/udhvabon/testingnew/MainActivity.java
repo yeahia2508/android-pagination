@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private int visibleThrisold = 0;
     private Meta meta;
     private boolean loading = true;
+    private  int maxPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 dealsAdapter.notifyItemRangeInserted(dealsAdapter.getItemCount(), deals.size());
                 meta = response.body().getMeta();
                 visibleThrisold = deals.size();
+                maxPage =  meta.getTotal_pages();
             }
 
             @Override
@@ -80,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(!loading && (lastVisibleItemPosition + visibleThrisold) > totalItemCont){
-                    loadMore();
+                    if (meta.getNext_page() != 0){
+                        loadMore();
+                    }
                     Log.i("arif","I am loaded");
                 }
 
